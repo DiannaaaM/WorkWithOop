@@ -1,0 +1,54 @@
+from typing import Any
+
+
+class Product:
+    name: str
+    price: int
+    quantity: int
+    description: int
+
+    def __init__(self, name: Any, price: Any, quantity: Any, description: Any) -> None:
+        self.name = name
+        self._price = price
+        self.quantity = quantity
+        self.description = description
+
+    @classmethod
+    def new_product(cls, new_ret: Any) -> Any:
+        return Product(new_ret["name"], new_ret["price"], new_ret["quantity"], new_ret["description"])
+
+    @property
+    def check_price(self) -> Any:
+        if isinstance(self._price, int) and self._price <= 0:
+            raise ValueError("Цена не должна быть нулевая или отрицательная")
+        return self._price
+
+
+class Category:
+    name: str
+    description: str
+    products: list
+    category_count: int
+    product_count: int
+
+    category_count = 0
+    product_count = 0
+
+    def __init__(self, name: Any, description: Any) -> None:
+        self.name = name
+        self.description = description
+        self.__products: list = []
+        self.product_count = len(self.__products)
+
+        Category.category_count = 1
+
+    def add_product(self, product: Any) -> None:
+        self.__products.append(product)
+        Category.product_count += 1
+
+    @property
+    def return_product_info(self) -> Any:
+        product_info = []
+        for product in self.__products:
+            product_info.append(f"{product.name}, {product._price} руб. Остаток: {product.quantity} шт.")
+        return "\n".join(product_info)

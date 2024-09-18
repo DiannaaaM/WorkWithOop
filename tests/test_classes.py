@@ -1,6 +1,6 @@
 import pytest
 
-from src.main import Category, Product
+from src.classes import Category, Product
 
 
 @pytest.fixture()
@@ -16,7 +16,17 @@ def category() -> Category:
 def test_Product(product: Product) -> None:
     assert product.description == "Цитрусовый фрукт"
     assert product.name == "Лимон"
-    assert product.price == 30
+    assert product.check_price == 30
+
+
+def test_check_price() -> None:
+    product = Product("Помело", -30, 50, "Цитрусовый фрукт")
+    assert product.description == "Цитрусовый фрукт"
+    assert product.name == "Помело"
+    try:
+        _ = product.check_price
+    except ValueError as e:
+        assert str(e) == "Цена не должна быть нулевая или отрицательная"
 
 
 def test_Category(category: Category) -> None:
