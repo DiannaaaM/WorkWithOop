@@ -9,7 +9,7 @@ class Product:
 
     def __init__(self, name: Any, price: Any, quantity: Any, description: Any) -> None:
         self.name = name
-        self._price = price
+        self.__price = price
         self.quantity = quantity
         self.description = description
 
@@ -19,9 +19,9 @@ class Product:
 
     @property
     def check_price(self) -> Any:
-        if isinstance(self._price, int) and self._price <= 0:
+        if isinstance(self.__price, int) and self.__price <= 0:
             raise ValueError("Цена не должна быть нулевая или отрицательная")
-        return self._price
+        return self.__price
 
 
 class Category:
@@ -50,5 +50,5 @@ class Category:
     def return_product_info(self) -> Any:
         product_info = []
         for product in self.__products:
-            product_info.append(f"{product.name}, {product._price} руб. Остаток: {product.quantity} шт.")
+            product_info.append(f"{product.name}, {product.check_price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_info)
