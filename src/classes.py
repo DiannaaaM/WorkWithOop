@@ -19,9 +19,13 @@ class Product:
 
     @property
     def check_price(self) -> Any:
-        if isinstance(self.__price, int) and self.__price <= 0:
-            raise ValueError("Цена не должна быть нулевая или отрицательная")
         return self.__price
+
+    @check_price.setter
+    def check_price(self, chek_price: Any) -> Any:
+        if isinstance(chek_price, int) and chek_price <= 0:
+            raise ValueError("Цена не должна быть нулевая или отрицательная")
+        return chek_price
 
 
 class Category:
