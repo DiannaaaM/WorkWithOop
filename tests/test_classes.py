@@ -39,3 +39,17 @@ def test_add_prducts(product: Product, category: Category) -> None:
     category.add_product(Product("Апельсин", 45, 10, "Цитрусовый фрукт"))
     assert Category.category_count == 1
     assert Category.product_count == 2
+
+
+def test_add_products() -> None:
+    pr1 = Product("Лимон", 30, 40, "Цитрусовый фрукт")
+    pr2 = Product("Апельсин", 45, 10, "Цитрусовый фрукт")
+    assert pr1 + pr2 == 1650
+
+
+def test_return_Product_info(product: Product) -> None:
+    assert str(product) == "Лимон, 30 руб. Остаток: 40 шт."
+
+
+def test_return_Category_info(category: Category) -> None:
+    assert str(category) == "Фрукты, количество продуктов: 2 шт."
