@@ -27,6 +27,14 @@ class Product:
             raise ValueError("Цена не должна быть нулевая или отрицательная")
         return chek_price
 
+    def __str__(
+        self,
+    ) -> str:
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: Any) -> Any:
+        return self.__price * self.quantity + other.check_price * other.quantity
+
 
 class Category:
     name: str
@@ -56,3 +64,6 @@ class Category:
         for product in self.__products:
             product_info.append(f"{product.name}, {product.check_price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_info)
+
+    def __str__(self) -> str:
+        return f"{self.name}, количество продуктов: {Category.product_count} шт."
