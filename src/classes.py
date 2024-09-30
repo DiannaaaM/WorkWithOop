@@ -33,7 +33,9 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: Any) -> Any:
-        return self.__price * self.quantity + other.check_price * other.quantity
+        if type(other) == type(self):
+            return self.__price * self.quantity + other.check_price * other.quantity
+        return "Нельзя сложить это"
 
 
 class Category:
@@ -55,8 +57,11 @@ class Category:
         Category.category_count = 1
 
     def add_product(self, product: Any) -> None:
-        self.__products.append(product)
-        Category.product_count += 1
+        if isinstance(product, (LawnGrass, Smartphone)):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            print("Этого у нас нет")
 
     @property
     def return_product_info(self) -> Any:
@@ -67,3 +72,41 @@ class Category:
 
     def __str__(self) -> str:
         return f"{self.name}, количество продуктов: {Category.product_count} шт."
+
+
+class Smartphone(Product):
+    efficiency: str
+    model: str
+    memory: str
+    color: str
+
+    def __init__(
+        self,
+        efficiency: Any,
+        model: Any,
+        memory: Any,
+        color: Any,
+        name: Any,
+        price: Any,
+        quantity: Any,
+        description: Any,
+    ) -> None:
+        super().__init__(name, price, quantity, description)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    country: str
+    germination_period: int
+    color: str
+
+    def __init__(
+        self, country: Any, germination_period: Any, color: Any, name: Any, price: Any, quantity: Any, description: Any
+    ) -> None:
+        super().__init__(name, price, quantity, description)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
