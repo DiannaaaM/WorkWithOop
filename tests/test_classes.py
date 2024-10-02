@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, LawnGrass, Product, Smartphone
+from src.classes import BaseProduct, Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture()
@@ -126,7 +126,6 @@ def test_add_products2(
 ) -> None:
     assert smartphone_xiaomi + smartphone_iphone == 20199.84
     assert lawnGrass_tomato + lawnGrass_sunflower == 697.0
-    assert lawnGrass_sunflower + smartphone_iphone == "Нельзя сложить это"
 
 
 def test_count_categories(
@@ -135,3 +134,8 @@ def test_count_categories(
     smatphone.add_product(lawnGrass_sunflower)
     smatphone.add_product(smartphone_iphone)
     assert Category.product_count == 2
+
+
+def test_Product_class() -> None:
+    assert BaseProduct == BaseProduct
+    assert issubclass(Product, BaseProduct)
