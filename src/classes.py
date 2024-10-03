@@ -17,8 +17,8 @@ class BaseProduct(ABC):
 
 
 class MixinLog:
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, *args, **kwargs) -> None:
+        print(repr(self))
 
     def __repr__(self) -> str:
         return f"{self.name}, {self.description}, {self.check_price}, {self.quantity}"
