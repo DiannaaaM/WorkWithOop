@@ -47,9 +47,11 @@ class Product(MixinLog, BaseProduct):
 
     @check_price.setter
     def check_price(self, new_price: int) -> None:
-        if isinstance(new_price, int) and new_price <= 0:
-            raise ValueError("Цена не должна быть нулевая или отрицательная")
-        self.__price = new_price
+        try:
+            if isinstance(new_price, int) and new_price <= 0:
+                raise ValueError("Цена не должна быть нулевая или отрицательная")
+        finally:
+            self.__price = new_price
 
     def __str__(self) -> str:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
@@ -79,7 +81,7 @@ class Category:
         self.__products: list = []
         self.product_count = len(self.__products)
 
-        Category.category_count = 1
+        Category.category_count += 1
 
     def add_product(self, product: Any) -> None:
         if isinstance(product, (LawnGrass, Smartphone)):
@@ -94,6 +96,15 @@ class Category:
         for product in self.__products:
             product_info.append(f"{product.name}, {product.check_price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_info)
+
+    def middle_price(self) -> float:
+        try:
+            if not self.__products:
+                return 0
+            end_sum = sum(product.check_price for product in self.__products)
+            return end_sum / len(self.__products)
+        except Category.category_count == 0:
+            return 0
 
     def __str__(self) -> str:
         return f"{self.name}, количество продуктов: {Category.product_count} шт."

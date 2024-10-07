@@ -139,3 +139,7 @@ def test_count_categories(
 def test_Product_class() -> None:
     assert BaseProduct == BaseProduct
     assert issubclass(Product, BaseProduct)
+
+
+def test_middle_price(smatphone):
+    assert smatphone.middle_price() == 0
