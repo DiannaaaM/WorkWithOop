@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List
 
 
 class BaseProduct(ABC):
@@ -17,11 +17,15 @@ class BaseProduct(ABC):
 
 
 class MixinLog:
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, name: Any, description: Any, price: Any, quantity: Any, *args: Any,  **kwargs: Any) -> None:
+        self.name = name
+        self.description = description
+        self.__price = price
+        self.quantity = quantity
         print(repr(self))
 
     def __repr__(self) -> str:
-        return f"{self.name}, {self.description}, {self.check_price}, {self.quantity}"
+        return f"{self.name}, {self.description}, {self.__price}, {self.quantity}"
 
 
 class Product(MixinLog, BaseProduct):
@@ -30,8 +34,8 @@ class Product(MixinLog, BaseProduct):
     quantity: int
     description: str
 
-    def __init__(self, name: str, price: int, quantity: int, description: str) -> None:
-        super().__init__()
+    def __init__(self, name: Any, price: Any, quantity: Any, description: Any) -> None:
+        super().__init__(name, description, price, quantity)
         self.name = name
         self.__price = price
         self.quantity = quantity
@@ -43,7 +47,7 @@ class Product(MixinLog, BaseProduct):
 
     @property
     def check_price(self) -> int:
-        return self.__price
+        return self._MixinLog__price
 
     @check_price.setter
     def check_price(self, new_price: int) -> None:
@@ -78,32 +82,32 @@ class Category:
     def __init__(self, name: Any, description: Any) -> None:
         self.name = name
         self.description = description
-        self.__products: list = []
+        self.__products: List[Product] = []
         self.product_count = len(self.__products)
 
         Category.category_count += 1
 
-    def add_product(self, product: Any) -> None:
+    def add_product(self, product: Product) -> None:
         if isinstance(product, (LawnGrass, Smartphone)):
             self.__products.append(product)
             Category.product_count += 1
         else:
-            print("Этого у нас нет")
+            print("Он недоступен")
 
     @property
-    def return_product_info(self) -> Any:
+    def return_product_info(self) -> str:
         product_info = []
         for product in self.__products:
-            product_info.append(f"{product.name}, {product.check_price} руб. Остаток: {product.quantity} шт.")
+            product_info.append(f"{product.name}, {product.check_price} rub. Quantity: {product.quantity} pcs.")
         return "\n".join(product_info)
 
     def middle_price(self) -> float:
         try:
             if not self.__products:
                 return 0
-            end_sum = sum(product.check_price for product in self.__products)
-            return end_sum / len(self.__products)
-        except Category.category_count == 0:
+            total_price = sum(product.check_price for product in self.__products)
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
             return 0
 
     def __str__(self) -> str:
