@@ -87,7 +87,7 @@ def test_Category(category: Category) -> None:
 def test_add_prducts(product: Product, category: Category) -> None:
     category.add_product(product)
     category.add_product(Product("Апельсин", 45, 10, "Цитрусовый фрукт"))
-    assert Category.category_count == 1
+    assert Category.category_count == 2
     assert Category.product_count == 0
 
 
@@ -139,3 +139,7 @@ def test_count_categories(
 def test_Product_class() -> None:
     assert BaseProduct == BaseProduct
     assert issubclass(Product, BaseProduct)
+
+
+def test_middle_price(smatphone):
+    assert smatphone.middle_price() == 0
